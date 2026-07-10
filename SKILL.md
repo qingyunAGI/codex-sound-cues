@@ -1,6 +1,6 @@
 ---
 name: codex-sound-cues
-description: Install and manage distinct local Codex task status sounds on Windows, including active processing, decision requests, task completion, and cute pet-click cues. Use when the user wants Codex to play different sounds for work states, add a pet click sound or optional web vibration behavior, package or share Codex notification behavior, test sound cues, or restore the previous Codex notification hook.
+description: Install and manage distinct local Codex task status sounds on Windows, including active processing, decision requests, task completion, and character-aware pet-click cues such as a cute magic deer laugh. Use when the user wants Codex to play different sounds for work states, add pet click sound or optional web vibration behavior, package or share Codex notification behavior, write bilingual Chinese-English skill documentation, test sound cues, or restore the previous Codex notification hook.
 ---
 
 # Codex Sound Cues
@@ -12,7 +12,7 @@ Install a Windows-only Codex sound cue setup with four states:
 - `work`: active processing, currently a short motorcycle start cue.
 - `decision`: user decision needed, currently a two-knock cue.
 - `complete`: task complete, using the local Codex notification sound when available and a bundled fallback otherwise.
-- `pet`: cute pet click cue for desktop pet or web pet integrations.
+- `pet`: character-aware pet click cue. The current asset is a cute magic deer laugh with a small sparkling bell tail.
 
 Use bundled scripts instead of editing Codex config by hand.
 
@@ -22,6 +22,8 @@ Use bundled scripts instead of editing Codex config by hand.
 - Preserve the existing Codex completion notification by wrapping the previous `notify` hook instead of deleting it.
 - Avoid redistributing the built-in Codex notification sound; call the local installed sound when available and fall back to a bundled synthetic cue.
 - Include a pet click cue that can be wired into a desktop pet, tray widget, browser pet, or canvas pet.
+- Keep pet sounds aligned to the pet character state. For a magic deer, prefer gentle laughter, soft chimes, and light magical sparkle instead of generic UI beeps.
+- Keep public documentation bilingual when sharing the skill: Chinese and English sections should sit in the same README with clear language switch links.
 - Keep changes reversible through timestamped backups and `scripts/restore.ps1`.
 
 ## Pet Click And Vibration
@@ -42,6 +44,8 @@ petElement.addEventListener("click", () => {
 ```
 
 Windows desktop apps generally do not have a universal vibration API. Treat vibration as a web/mobile enhancement and use the pet sound as the default desktop feedback.
+
+If the pet later has multiple states, create separate event sounds rather than reusing `pet` for every interaction. Good candidates: `pet-happy`, `pet-sleepy`, `pet-shy`, `pet-cast`, and `pet-alert`.
 
 ## Install
 

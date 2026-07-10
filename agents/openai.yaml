@@ -1,4 +1,4 @@
 interface:
   display_name: "Codex Sound Cues"
-  short_description: "Install Codex status and pet click sounds"
-  default_prompt: "Use $codex-sound-cues to install, test, or adjust Codex status and pet click notification sounds."
+  short_description: "Install Codex status and magic pet sounds"
+  default_prompt: "Use $codex-sound-cues to install, test, or adjust Codex status sounds and a magic deer pet click cue."
