@@ -1,13 +1,13 @@
 ---
 name: codex-sound-cues
-description: Install and manage distinct local Codex task status sounds on Windows, including active processing, decision requests, task completion, character-aware pet-click cues such as a cute magic deer laugh, and optional long-sitting reminder voice prompts. Use when the user wants Codex to play different sounds for work states, add pet click sound or optional web vibration behavior, add a sedentary break reminder voice, package or share Codex notification behavior, write bilingual Chinese-English skill documentation, test sound cues, or restore the previous Codex notification hook.
+description: Install and manage a Windows Codex companion system with distinct task status sounds, a Codex-compatible animated Magic Deer pet, character-aware pet-click cues, and optional long-sitting reminder voice prompts. Use when the user wants different sounds for work states, an installable custom Codex pet, pet click sounds or optional web vibration behavior, sedentary break reminders, shareable bilingual companion documentation, testing, or reversible restore.
 ---
 
 # Codex Sound Cues
 
 ## Overview
 
-Install a Windows-only Codex sound cue setup with four states:
+Install a Windows Codex companion setup with five audio states and an animated Magic Deer custom pet:
 
 - `work`: active processing, currently a short motorcycle start cue.
 - `decision`: user decision needed, currently a two-knock cue.
@@ -23,6 +23,7 @@ Use bundled scripts instead of editing Codex config by hand.
 - Preserve the existing Codex completion notification by wrapping the previous `notify` hook instead of deleting it.
 - Avoid redistributing the built-in Codex notification sound; call the local installed sound when available and fall back to a bundled synthetic cue.
 - Include a pet click cue that can be wired into a desktop pet, tray widget, browser pet, or canvas pet.
+- Install the Codex-compatible Magic Deer package from `assets/pets/magic-deer/` into `$HOME\.codex\pets\magic-deer`.
 - Keep pet sounds aligned to the pet character state. For a magic deer, prefer gentle laughter, soft chimes, and light magical sparkle instead of generic UI beeps.
 - Include optional long-sitting reminder voice prompts. Keep the two Jianying/CapCut source MP3 files in `assets/voice-sources/` and use converted WAV files for reliable playback.
 - Keep public documentation bilingual when sharing the skill: Chinese and English sections should sit in the same README with clear language switch links.
@@ -77,6 +78,7 @@ The installer:
 
 - Copies assets into `$HOME\.codex\sounds`.
 - Copies scripts into `$HOME\.codex\scripts`.
+- Copies the Magic Deer `pet.json` and `spritesheet.webp` into `$HOME\.codex\pets\magic-deer` and backs up a same-named existing custom pet.
 - Backs up `$HOME\.codex\config.toml` and `$HOME\.codex\AGENTS.md`.
 - Replaces the Codex `notify` hook with a wrapper that plays completion sound and then calls the previous notifier when possible.
 - Adds global guidance so future Codex turns play `work` before substantial processing and `decision` before asking the user to choose.

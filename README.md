@@ -20,9 +20,9 @@
 
 - **状态清晰**：不同声音对应不同工作状态，不用一直盯着屏幕。
 - **角色一致**：宠物点击音不是普通按钮音，而是贴合“小鹿 / 魔法小鹿”形象的轻笑反馈。
-- **宠物可分享**：仓库包含魔法小鹿 Codex 宠物的静态角色源图和角色资料，可作为后续动画宠物包的视觉源。
+- **完整动态宠物**：仓库包含可直接安装的魔法小鹿 Codex 动态宠物包，带待机、挥手、跳跃、专注、等待、奔跑和失败反馈等状态。
 - **久坐提醒**：内置两条中文撒娇式休息提醒，可在长时间 Codex 伏案工作后随机播放。
-- **安全可回滚**：安装脚本会备份 `$HOME\.codex\config.toml` 和 `$HOME\.codex\AGENTS.md`。
+- **安全可回滚**：安装脚本会备份 `$HOME\.codex\config.toml`、`$HOME\.codex\AGENTS.md`，以及已有的同名小鹿宠物。
 - **不破坏原通知**：完成音通过包装 Codex 原有 `notify` 钩子实现，会尽量保留原通知逻辑。
 - **不分发 Codex 内置音频**：仓库不会直接打包 Codex 自带通知音，只在安装者本机存在时调用。
 - **宠物互动可扩展**：支持桌面宠物、浏览器宠物、Canvas 宠物等场景。
@@ -40,6 +40,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\install.ps1
 
 - 复制音频资源到 `$HOME\.codex\sounds`
 - 复制脚本到 `$HOME\.codex\scripts`
+- 复制完整动态小鹿宠物到 `$HOME\.codex\pets\magic-deer`
 - 备份 Codex 配置和全局说明文件
 - 将完成通知接入 Codex 的 `notify` 钩子
 - 在全局规则中加入 `work` / `decision` / `pet` / `sedentary` 的使用说明
@@ -64,13 +65,14 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\co
 
 ### 宠物点击与震动
 
-当前分享的宠物角色：
+当前分享的动态宠物角色：
 
 ![魔法小鹿 Codex 宠物](./assets/pets/magic-deer-codex-pet/magic-deer-codex-pet.png)
 
-- 角色资料：`assets/pets/magic-deer-codex-pet/pet-profile.json`
-- 资产类型：静态角色源图，不是完整动画 spritesheet。
-- 后续扩展：可以基于这张源图继续生成完整 Codex 动画宠物包。
+- 可安装包：`assets/pets/magic-deer/pet.json` 与 `assets/pets/magic-deer/spritesheet.webp`
+- 动态状态：待机、挥手、跳跃、等待、专注、左右奔跑、失败反馈。
+- 互动联动：点击反馈使用 `pet` 声音；久坐时随机播放两句小鹿语音。
+- 安装后重启 Codex，并在自定义宠物中选择“魔法小鹿”。
 
 桌面或本地脚本集成时，调用 `pet` 事件：
 
@@ -141,9 +143,9 @@ The design goal is not just “more sounds.” Each cue carries a different stat
 
 - **Clear states**: different sounds map to different Codex states, so users do not need to watch the screen constantly.
 - **Character-aware pet feedback**: the pet click sound is not a generic button beep; it is tuned for a cute magical deer character.
-- **Shareable pet asset**: the repository includes the Magic Deer Codex Pet static character reference and profile metadata as a source for future animated pet packaging.
+- **Complete animated pet**: the repository includes an installable Magic Deer Codex pet package with idle, wave, jump, focus, wait, run, and failure-feedback states.
 - **Break reminder**: includes two cute Chinese voice prompts for long Codex work sessions, selected randomly at runtime.
-- **Reversible setup**: the installer backs up `$HOME\.codex\config.toml` and `$HOME\.codex\AGENTS.md`.
+- **Reversible setup**: the installer backs up `$HOME\.codex\config.toml`, `$HOME\.codex\AGENTS.md`, and any same-named existing deer pet.
 - **Preserves existing notifications**: completion sound wraps the existing Codex `notify` hook and tries to keep the previous notification behavior.
 - **No redistribution of built-in Codex audio**: the repository does not package the native Codex notification sound. It calls the local installed sound when present.
 - **Expandable pet interactions**: suitable for desktop pets, browser pets, canvas pets, and similar companion UI.
@@ -161,6 +163,7 @@ The installer:
 
 - Copies audio assets into `$HOME\.codex\sounds`
 - Copies scripts into `$HOME\.codex\scripts`
+- Copies the complete animated pet into `$HOME\.codex\pets\magic-deer`
 - Backs up Codex config and global instruction files
 - Connects completion sound through the Codex `notify` hook
 - Adds global guidance for using `work`, `decision`, `pet`, and `sedentary` cues
@@ -185,13 +188,14 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\co
 
 ### Pet Click And Vibration
 
-Current shared pet character:
+Current shared animated pet:
 
 ![Magic Deer Codex Pet](./assets/pets/magic-deer-codex-pet/magic-deer-codex-pet.png)
 
-- Profile: `assets/pets/magic-deer-codex-pet/pet-profile.json`
-- Asset type: static character reference, not a full animated spritesheet.
-- Future extension: use this source image to generate a full Codex animated pet package.
+- Installable package: `assets/pets/magic-deer/pet.json` and `assets/pets/magic-deer/spritesheet.webp`
+- Animated states: idle, wave, jump, wait, review, both running directions, and failure feedback.
+- Interaction link: click feedback uses the `pet` cue; long-sitting reminders randomly play one of the two deer voice prompts.
+- Restart Codex after installation and choose “Magic Deer” from custom pets.
 
 For desktop or local integrations, call the `pet` event:
 

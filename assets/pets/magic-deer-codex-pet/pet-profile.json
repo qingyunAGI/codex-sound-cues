@@ -5,10 +5,10 @@
     "en": "Magic Deer Codex Pet"
   },
   "asset": "./magic-deer-codex-pet.png",
-  "type": "static-reference",
+  "type": "character-reference",
   "description": {
-    "zh": "一只戴着魔法帽、拿着星星法杖的小鹿 Codex 宠物。当前仓库提供静态角色源图、宠物点击音和交互说明；完整动画宠物包可在后续通过 hatch-pet 流程生成。",
-    "en": "A tiny deer Codex pet wearing a wizard hat and holding a star wand. This repository currently ships the static character reference, pet click sound, and integration notes; a full animated pet package can be generated later through the hatch-pet workflow."
+    "zh": "一只戴着魔法帽、拿着星星法杖的小鹿 Codex 宠物。这张图是角色源图；完整可安装动画包位于相邻的 ../magic-deer/ 目录。",
+    "en": "A tiny deer Codex pet wearing a wizard hat and holding a star wand. This image is the character source; the complete installable animated package is in the adjacent ../magic-deer/ directory."
   },
   "interactionCues": {
     "click": "codex-pet-click-cute.wav",

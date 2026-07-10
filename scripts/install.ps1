@@ -4,9 +4,12 @@ $skillRoot = Split-Path -Parent (Split-Path -Parent $PSCommandPath)
 $codexRoot = Join-Path $HOME ".codex"
 $scriptDir = Join-Path $codexRoot "scripts"
 $soundDir = Join-Path $codexRoot "sounds"
+$petRoot = Join-Path $codexRoot "pets"
+$petSource = Join-Path $skillRoot "assets\pets\magic-deer"
+$petDestination = Join-Path $petRoot "magic-deer"
 $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
 
-New-Item -ItemType Directory -Force -Path $scriptDir, $soundDir | Out-Null
+New-Item -ItemType Directory -Force -Path $scriptDir, $soundDir, $petRoot | Out-Null
 
 $configPath = Join-Path $codexRoot "config.toml"
 $agentsPath = Join-Path $codexRoot "AGENTS.md"
@@ -20,6 +23,14 @@ if (Test-Path -LiteralPath $agentsPath) {
 
 Copy-Item -LiteralPath (Join-Path $skillRoot "scripts\*.ps1") -Destination $scriptDir -Force
 Copy-Item -LiteralPath (Join-Path $skillRoot "assets\*.wav") -Destination $soundDir -Force
+
+if (Test-Path -LiteralPath $petSource) {
+  if (Test-Path -LiteralPath $petDestination) {
+    Copy-Item -LiteralPath $petDestination -Destination "$petDestination.bak-codex-sound-cues-$stamp" -Recurse -Force
+  }
+  New-Item -ItemType Directory -Force -Path $petDestination | Out-Null
+  Copy-Item -Path (Join-Path $petSource "*") -Destination $petDestination -Recurse -Force
+}
 
 $previousNotify = $null
 if (Test-Path -LiteralPath $configPath) {
@@ -76,6 +87,7 @@ $guidance = @"
 - For substantial work, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 work` when starting active processing.
 - Before asking the user to make a decision, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 decision`.
 - For pet click integrations, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 pet`.
+- The Magic Deer animated pet is installed in `$HOME\.codex\pets\magic-deer`; select it from Codex custom pets after restarting Codex.
 - For optional long-sitting reminders, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\start-sedentary-reminder.ps1 -Minutes 50`.
 - Completion sound is handled by the configured Codex `notify` hook.
 "@
@@ -90,5 +102,8 @@ if (Test-Path -LiteralPath $agentsPath) {
 }
 
 Write-Output "Installed Codex Sound Cues."
+if (Test-Path -LiteralPath $petSource) {
+  Write-Output "Installed Magic Deer animated pet to $petDestination"
+}
 Write-Output "Backup stamp: $stamp"
 Write-Output "Test with: powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$scriptDir\codex-sound.ps1`" test"
