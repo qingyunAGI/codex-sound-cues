@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Sound Cues"
+  short_description: "Install distinct Codex task status sounds"
+  default_prompt: "Use $codex-sound-cues to install, test, or adjust Codex status notification sounds."
