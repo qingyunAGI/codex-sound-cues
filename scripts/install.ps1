@@ -18,8 +18,7 @@ if (Test-Path -LiteralPath $agentsPath) {
   Copy-Item -LiteralPath $agentsPath -Destination "$agentsPath.bak-codex-sound-cues-$stamp" -Force
 }
 
-Copy-Item -LiteralPath (Join-Path $skillRoot "scripts\codex-sound.ps1") -Destination (Join-Path $scriptDir "codex-sound.ps1") -Force
-Copy-Item -LiteralPath (Join-Path $skillRoot "scripts\codex-notify-wrapper.ps1") -Destination (Join-Path $scriptDir "codex-notify-wrapper.ps1") -Force
+Copy-Item -LiteralPath (Join-Path $skillRoot "scripts\*.ps1") -Destination $scriptDir -Force
 Copy-Item -LiteralPath (Join-Path $skillRoot "assets\*.wav") -Destination $soundDir -Force
 
 $previousNotify = $null
@@ -77,6 +76,7 @@ $guidance = @"
 - For substantial work, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 work` when starting active processing.
 - Before asking the user to make a decision, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 decision`.
 - For pet click integrations, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 pet`.
+- For optional long-sitting reminders, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\start-sedentary-reminder.ps1 -Minutes 50`.
 - Completion sound is handled by the configured Codex `notify` hook.
 "@
 

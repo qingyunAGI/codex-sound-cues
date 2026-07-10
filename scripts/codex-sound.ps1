@@ -1,5 +1,5 @@
 param(
-  [ValidateSet("work", "decision", "complete", "pet", "test")]
+  [ValidateSet("work", "decision", "complete", "pet", "sedentary", "test")]
   [string]$Event = "complete"
 )
 
@@ -29,6 +29,10 @@ $workWav = Join-Path $soundRoot "codex-work-motorcycle-start.wav"
 $decisionWav = Join-Path $soundRoot "codex-decision-door-knock.wav"
 $completeFallbackWav = Join-Path $soundRoot "codex-complete-fallback.wav"
 $petWav = Join-Path $soundRoot "codex-pet-click-cute.wav"
+$sedentaryWavs = @(
+  (Join-Path $soundRoot "codex-sedentary-cute-1.wav"),
+  (Join-Path $soundRoot "codex-sedentary-cute-2.wav")
+)
 $localCodexWav = "C:\Program Files\WindowsApps\OpenAI.Codex_26.707.3748.0_x64__2p2nqsd0c76g0\app\resources\codex-notification.wav"
 
 switch ($Event) {
@@ -67,6 +71,21 @@ switch ($Event) {
       Invoke-CodexBeep 1397 150
     }
   }
+  "sedentary" {
+    $available = @($sedentaryWavs | Where-Object { Test-Path -LiteralPath $_ })
+    $played = $false
+    if ($available.Count -gt 0) {
+      $selected = Get-Random -InputObject $available
+      $played = Invoke-CodexWav $selected
+    }
+    if (-not $played) {
+      Invoke-CodexBeep 1046 100
+      Start-Sleep -Milliseconds 80
+      Invoke-CodexBeep 1319 120
+      Start-Sleep -Milliseconds 80
+      Invoke-CodexBeep 1046 180
+    }
+  }
   "test" {
     & $PSCommandPath work
     Start-Sleep -Milliseconds 650
@@ -75,5 +94,7 @@ switch ($Event) {
     & $PSCommandPath complete
     Start-Sleep -Milliseconds 650
     & $PSCommandPath pet
+    Start-Sleep -Milliseconds 650
+    & $PSCommandPath sedentary
   }
 }

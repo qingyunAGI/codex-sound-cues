@@ -12,7 +12,10 @@
   },
   "interactionCues": {
     "click": "codex-pet-click-cute.wav",
-    "sedentaryReminder": "planned"
+    "sedentaryReminder": [
+      "codex-sedentary-cute-1.wav",
+      "codex-sedentary-cute-2.wav"
+    ]
   },
   "notes": {
     "zh": "宠物声音应贴合小鹿、魔法、可爱、轻轻笑、关心主人这些状态，不使用普通按钮哔声。",
