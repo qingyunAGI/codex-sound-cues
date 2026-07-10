@@ -1,5 +1,5 @@
 param(
-  [ValidateSet("work", "decision", "complete", "test")]
+  [ValidateSet("work", "decision", "complete", "pet", "test")]
   [string]$Event = "complete"
 )
 
@@ -28,6 +28,7 @@ $soundRoot = Join-Path $codexRoot "sounds"
 $workWav = Join-Path $soundRoot "codex-work-motorcycle-start.wav"
 $decisionWav = Join-Path $soundRoot "codex-decision-door-knock.wav"
 $completeFallbackWav = Join-Path $soundRoot "codex-complete-fallback.wav"
+$petWav = Join-Path $soundRoot "codex-pet-click-cute.wav"
 $localCodexWav = "C:\Program Files\WindowsApps\OpenAI.Codex_26.707.3748.0_x64__2p2nqsd0c76g0\app\resources\codex-notification.wav"
 
 switch ($Event) {
@@ -58,11 +59,21 @@ switch ($Event) {
       Invoke-CodexBeep 1046 160
     }
   }
+  "pet" {
+    $played = Invoke-CodexWav $petWav
+    if (-not $played) {
+      Invoke-CodexBeep 1046 90
+      Start-Sleep -Milliseconds 60
+      Invoke-CodexBeep 1397 150
+    }
+  }
   "test" {
     & $PSCommandPath work
     Start-Sleep -Milliseconds 650
     & $PSCommandPath decision
     Start-Sleep -Milliseconds 650
     & $PSCommandPath complete
+    Start-Sleep -Milliseconds 650
+    & $PSCommandPath pet
   }
 }
