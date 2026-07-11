@@ -11,13 +11,13 @@ Install a Windows Codex companion setup with seven audio states and an animated 
 
 Magic Deer is a starry Codex desk companion: a small deer wearing a moon-and-star wizard hat, a star-lit cape, and a star wand. Treat it as a character companion, not a generic sound pack. Its sounds should make Codex work feel more recognizable, gentle, and accompanied.
 
-- `work`: active processing, currently a short motorcycle start cue.
+- `work`: active processing. It calls `greeting-open` first, starts the hourly sedentary reminder loop if needed, then plays the short motorcycle start cue.
 - `decision`: user decision needed, currently a two-knock cue.
 - `complete`: task complete, using the local Codex notification sound when available and a bundled fallback otherwise.
 - `pet`: character-aware pet click cue. The current asset is a cute magic deer laugh with a small sparkling bell tail.
-- `sedentary`: cute Chinese break reminder voice for long Codex work sessions; randomly selects one of two Jianying/CapCut voiceover exports.
+- `sedentary`: cute Chinese break reminder voice for long Codex work sessions; randomly selects one of two Jianying/CapCut voiceover exports. The `work` event starts an hourly loop for 1-hour, 2-hour, 3-hour, and continued hourly reminders.
 - `greeting-install`: post-install Magic Deer greeting; randomly selects one of two greeting voiceovers.
-- `greeting-open`: first Codex work-session greeting after installation; always plays greeting voice 2 once and records local state.
+- `greeting-open`: first Codex work-session greeting after installation; always plays greeting voice 2 once, records local state, and is triggered before the first `work` cue.
 
 Use bundled scripts instead of editing Codex config by hand.
 
@@ -64,13 +64,17 @@ Play a randomly selected cute Chinese reminder directly:
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" sedentary
 ```
 
-Start an optional local reminder loop, defaulting to 50 minutes:
+The `work` event automatically starts a local reminder loop, defaulting to 60 minutes. This creates random reminders after 1 hour, 2 hours, 3 hours, and every continued hour. Start it manually when needed:
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\start-sedentary-reminder.ps1" -Minutes 50
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\start-sedentary-reminder.ps1" -Minutes 60
 ```
 
-Do not start the loop silently. Ask or tell the user before running a long-lived reminder process.
+Stop the automatic reminder loop:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" sedentary-stop
+```
 
 ## Greeting Voice
 

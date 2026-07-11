@@ -92,12 +92,13 @@ $guidance = @'
 ## Codex Sound Cues
 
 - For substantial work, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 work` when starting active processing.
+- The `work` event plays the first-session Magic Deer greeting before the work cue when it has not been played yet, then starts the hourly sedentary reminder loop if it is not already running.
 - Before asking the user to make a decision, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 decision`.
 - For pet click integrations, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 pet`.
 - The Magic Deer animated pet is installed in `$HOME\.codex\pets\magic-deer`; select it from Codex custom pets after restarting Codex.
 - After installation, the installer plays `greeting-install`, randomly selecting one of the two Magic Deer greeting voices.
-- At the beginning of the first Codex work session after installation, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 greeting-open`; it plays the second Magic Deer greeting once and records a local marker.
-- For optional long-sitting reminders, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\start-sedentary-reminder.ps1 -Minutes 50`.
+- At the beginning of the first Codex work session after installation, `work` automatically calls `greeting-open`; it plays the second Magic Deer greeting once and records a local marker.
+- Long-sitting reminders are started automatically by `work`; they randomly remind after 1 hour, 2 hours, 3 hours, and every continued hour. Stop them with `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 sedentary-stop`.
 - Completion sound is handled by the configured Codex `notify` hook.
 '@
 
