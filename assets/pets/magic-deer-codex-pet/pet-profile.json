@@ -4,13 +4,22 @@
     "zh": "魔法小鹿 Codex 宠物",
     "en": "Magic Deer Codex Pet"
   },
+  "nickname": {
+    "zh": "魔法小鹿",
+    "en": "Magic Deer"
+  },
   "asset": "./magic-deer-codex-pet.png",
   "type": "character-reference",
   "description": {
-    "zh": "一只戴着魔法帽、拿着星星法杖的小鹿 Codex 宠物。这张图是角色源图；完整可安装动画包位于相邻的 ../magic-deer/ 目录。",
-    "en": "A tiny deer Codex pet wearing a wizard hat and holding a star wand. This image is the character source; the complete installable animated package is in the adjacent ../magic-deer/ directory."
+    "zh": "魔法小鹿是一只戴着星月魔法帽、披着星光披风、拿着星星法杖的 Codex 小宠物。它像从夜空边缘跑来的桌边小助手，陪主人进入专注、等待任务、做出决定，也会在久坐时软软提醒主人休息。这张图是角色源图；完整可安装动画包位于相邻的 ../magic-deer/ 目录。",
+    "en": "Magic Deer is a Codex pet with a moon-and-star wizard hat, a star-lit cape, and a star wand. It feels like a tiny desk companion from the edge of the night sky, helping the user enter focus, wait through tasks, make decisions, and take breaks with gentle reminders. This image is the character source; the complete installable animated package is in the adjacent ../magic-deer/ directory."
   },
   "interactionCues": {
+    "installGreeting": [
+      "codex-greeting-cute-1.wav",
+      "codex-greeting-cute-2.wav"
+    ],
+    "firstSessionGreeting": "codex-greeting-cute-2.wav",
     "click": "codex-pet-click-cute.wav",
     "sedentaryReminder": [
       "codex-sedentary-cute-1.wav",
@@ -18,7 +27,7 @@
     ]
   },
   "notes": {
-    "zh": "宠物声音应贴合小鹿、魔法、可爱、轻轻笑、关心主人这些状态，不使用普通按钮哔声。",
-    "en": "Pet sounds should match deer-like, magical, cute, soft-laughing, caring states rather than generic UI beeps."
+    "zh": "宠物声音应贴合小鹿、魔法、星光、轻轻撒娇、关心主人这些状态。它不是普通按钮音，而是给主人一点被陪伴、被提醒、被温柔叫回来的感觉。",
+    "en": "Pet sounds should match deer-like, magical, starry, gently cuddly, and caring states. They are not generic UI beeps; they should make the user feel accompanied, reminded, and softly called back."
   }
 }

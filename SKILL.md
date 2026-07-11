@@ -7,7 +7,9 @@ description: Install and manage a Windows Codex companion system with distinct t
 
 ## Overview
 
-Install a Windows Codex companion setup with seven audio states and an animated Magic Deer custom pet:
+Install a Windows Codex companion setup with seven audio states and an animated Magic Deer custom pet.
+
+Magic Deer is a starry Codex desk companion: a small deer wearing a moon-and-star wizard hat, a star-lit cape, and a star wand. Treat it as a character companion, not a generic sound pack. Its sounds should make Codex work feel more recognizable, gentle, and accompanied.
 
 - `work`: active processing, currently a short motorcycle start cue.
 - `decision`: user decision needed, currently a two-knock cue.

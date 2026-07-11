@@ -8,6 +8,16 @@
 
 `codex-sound-cues` 是一个可分享的 Codex skill，用来给 Codex 和宠物交互增加清晰、可辨识、可回滚的声音反馈。
 
+## 魔法小鹿 Codex Pet
+
+魔法小鹿是一只给 Codex 使用的星月小鹿宠物。
+
+它戴着蓝紫色的星月魔法帽，披着小小的星光披风，手里拿着星星法杖。它看起来像刚从夜空边缘跑下来，也像一个悄悄守在桌边的小助手，陪你写代码、整理想法、等任务跑完。
+
+AI 工具越来越多以后，工作很容易变成一串紧绷的提示、等待和切换。创作魔法小鹿的初衷，是希望它像一个有一点魔法感的小陪伴：在 Codex 开始处理时给你一个进入状态的声音，在需要你做决定时轻轻敲门，在完成时提醒你可以回来看一眼；当你坐太久时，它也会用软软的声音提醒你起来走动一下。
+
+愿它陪你在一段段专注工作里，少一点机械感，多一点星光和松弛。
+
 它的核心设计不是“多放几个音效”，而是让不同状态有不同性格：
 
 - `work`：Codex 正在处理任务。当前声音是短促的摩托车启动声，像进入工作状态。
@@ -153,6 +163,16 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\restore.ps1
 ## English
 
 `codex-sound-cues` is a shareable Codex skill that adds clear, recognizable, and reversible sound feedback to Codex and pet interactions.
+
+## Magic Deer Codex Pet
+
+Magic Deer is a starry little deer pet for Codex.
+
+It wears a blue-purple moon-and-star wizard hat, a tiny star-lit cape, and carries a star wand. It feels like it has just stepped down from the edge of the night sky, then quietly settled beside the desk to keep you company while you code, think, wait, and return to finished work.
+
+As AI tools multiply, work can start to feel like a tight loop of prompts, waiting, context switches, and decisions. Magic Deer was created as a small magical companion for that rhythm: it gives Codex a recognizable sound when work starts, knocks gently when a decision is needed, reminds you when a task is complete, and uses soft voice prompts when it is time to stand up and move.
+
+May it bring a little less machinery and a little more starlight into focused Codex work.
 
 The design goal is not just “more sounds.” Each cue carries a different state and personality:
 
