@@ -2,6 +2,33 @@
 
 [中文说明](#中文说明) | [English](#english)
 
+![魔法小鹿 Codex 伴侣展示海报](./assets/poster/magic-deer-companion-poster.png)
+
+## 一键安装 / One-Link Install
+
+这个仓库已经包含完整的魔法小鹿 Codex 动态宠物安装包、状态提示音、点击互动音、安装/首次工作问候音和久坐提醒语音。
+
+动画宠物包在这里：
+
+- `assets/pets/magic-deer/pet.json`
+- `assets/pets/magic-deer/spritesheet.webp`
+
+在 Windows PowerShell 里运行这一条，即可从 GitHub 下载并安装全部内容：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/qingyunAGI/codex-sound-cues/main/install-from-github.ps1 | iex"
+```
+
+安装后重启 Codex，并在自定义宠物中选择“魔法小鹿”。安装脚本会自动复制动态宠物到 `$HOME\.codex\pets\magic-deer`，复制提示音到 `$HOME\.codex\sounds`，并接入 Codex 的完成通知与工作状态提示。
+
+Run this in Windows PowerShell to install everything from GitHub:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/qingyunAGI/codex-sound-cues/main/install-from-github.ps1 | iex"
+```
+
+After installation, restart Codex and choose “Magic Deer” from custom pets.
+
 ---
 
 ## 中文说明
