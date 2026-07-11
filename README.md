@@ -15,6 +15,8 @@
 - `complete`：Codex 已完成任务。优先使用本机 Codex 自带通知音；如果找不到，则使用仓库内的自制 fallback 完成音。
 - `pet`：宠物点击互动。当前声音为“小鹿魔法宠物”的可爱轻笑音，带一点闪光铃声尾巴，适合鼠标点到宠物时播放。
 - `sedentary`：久坐提醒语音。当前使用两条剪映导出的可爱童声 MP3 配音源，并内置对应的稳定 WAV 运行文件，触发时随机播放其中一条。
+- `greeting-install`：安装好魔法小鹿后播放的问候声，会在两条打招呼配音里随机选一条。
+- `greeting-open`：安装后的第一次 Codex 工作会话问候，固定使用第 2 条打招呼配音，并用本地状态文件避免重复播放。
 
 ### 特点
 
@@ -22,6 +24,7 @@
 - **角色一致**：宠物点击音不是普通按钮音，而是贴合“小鹿 / 魔法小鹿”形象的轻笑反馈。
 - **完整动态宠物**：仓库包含可直接安装的魔法小鹿 Codex 动态宠物包，带待机、挥手、跳跃、专注、等待、奔跑和失败反馈等状态。
 - **久坐提醒**：内置两条中文撒娇式休息提醒，可在长时间 Codex 伏案工作后随机播放。
+- **安装问候**：魔法小鹿安装完成后会随机问候，第一次进入 Codex 工作会话时再用第 2 条声音打招呼一次。
 - **安全可回滚**：安装脚本会备份 `$HOME\.codex\config.toml`、`$HOME\.codex\AGENTS.md`，以及已有的同名小鹿宠物。
 - **不破坏原通知**：完成音通过包装 Codex 原有 `notify` 钩子实现，会尽量保留原通知逻辑。
 - **不分发 Codex 内置音频**：仓库不会直接打包 Codex 自带通知音，只在安装者本机存在时调用。
@@ -41,9 +44,10 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\install.ps1
 - 复制音频资源到 `$HOME\.codex\sounds`
 - 复制脚本到 `$HOME\.codex\scripts`
 - 复制完整动态小鹿宠物到 `$HOME\.codex\pets\magic-deer`
+- 重置首次会话问候标记，并在安装结束时随机播放一条小鹿问候
 - 备份 Codex 配置和全局说明文件
 - 将完成通知接入 Codex 的 `notify` 钩子
-- 在全局规则中加入 `work` / `decision` / `pet` / `sedentary` 的使用说明
+- 在全局规则中加入 `work` / `decision` / `pet` / `sedentary` / `greeting-open` 的使用说明
 
 ### 测试
 
@@ -61,7 +65,26 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\co
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" complete
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" pet
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" sedentary
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" greeting-install
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" greeting-open
 ```
+
+### 安装后问候
+
+问候声音有两个事件：
+
+- `greeting-install`：安装脚本在结束时自动播放，随机使用两条问候配音之一。
+- `greeting-open`：安装后的第一次 Codex 工作会话播放，固定使用第 2 条问候配音；播放后会写入 `$HOME\.codex\state\codex-sound-cues\greeting-open-played.txt`，避免每次打开都重复打招呼。
+
+两条剪映配音源保存在：
+
+- `assets/voice-sources/magic-deer-greeting-1.mp3`
+- `assets/voice-sources/magic-deer-greeting-2.mp3`
+
+安装后使用对应的 WAV 运行文件：
+
+- `codex-greeting-cute-1.wav`
+- `codex-greeting-cute-2.wav`
 
 ### 宠物点击与震动
 
@@ -138,6 +161,8 @@ The design goal is not just “more sounds.” Each cue carries a different stat
 - `complete`: Codex has finished a task. It uses the locally installed Codex notification sound when available, with a bundled fallback when it is not.
 - `pet`: pet click interaction. Current sound: a cute “magic deer” laugh with a soft sparkling bell tail, designed for mouse clicks on a deer-like magical pet.
 - `sedentary`: long-sitting reminder voice. It uses two cute childlike MP3 voiceover sources exported from Jianying/CapCut and randomly plays one converted WAV runtime asset each time.
+- `greeting-install`: Magic Deer greeting played after installation, randomly selecting one of the two greeting voices.
+- `greeting-open`: first Codex work-session greeting after installation, always using greeting voice 2 and recording local state to avoid repeats.
 
 ### Features
 
@@ -145,6 +170,7 @@ The design goal is not just “more sounds.” Each cue carries a different stat
 - **Character-aware pet feedback**: the pet click sound is not a generic button beep; it is tuned for a cute magical deer character.
 - **Complete animated pet**: the repository includes an installable Magic Deer Codex pet package with idle, wave, jump, focus, wait, run, and failure-feedback states.
 - **Break reminder**: includes two cute Chinese voice prompts for long Codex work sessions, selected randomly at runtime.
+- **Install greeting**: Magic Deer greets the user randomly after installation, then uses voice 2 once on the first Codex work session.
 - **Reversible setup**: the installer backs up `$HOME\.codex\config.toml`, `$HOME\.codex\AGENTS.md`, and any same-named existing deer pet.
 - **Preserves existing notifications**: completion sound wraps the existing Codex `notify` hook and tries to keep the previous notification behavior.
 - **No redistribution of built-in Codex audio**: the repository does not package the native Codex notification sound. It calls the local installed sound when present.
@@ -164,9 +190,10 @@ The installer:
 - Copies audio assets into `$HOME\.codex\sounds`
 - Copies scripts into `$HOME\.codex\scripts`
 - Copies the complete animated pet into `$HOME\.codex\pets\magic-deer`
+- Resets the first-session greeting marker and plays one random Magic Deer greeting at the end of installation
 - Backs up Codex config and global instruction files
 - Connects completion sound through the Codex `notify` hook
-- Adds global guidance for using `work`, `decision`, `pet`, and `sedentary` cues
+- Adds global guidance for using `work`, `decision`, `pet`, `sedentary`, and `greeting-open` cues
 
 ### Test
 
@@ -184,7 +211,26 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\co
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" complete
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" pet
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" sedentary
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" greeting-install
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\scripts\codex-sound.ps1" greeting-open
 ```
+
+### Post-Install Greeting
+
+There are two greeting events:
+
+- `greeting-install`: played automatically at the end of installation, randomly selecting one of the two greeting voice files.
+- `greeting-open`: played on the first Codex work session after installation, always using greeting voice 2; it writes `$HOME\.codex\state\codex-sound-cues\greeting-open-played.txt` after playback so it does not repeat every time.
+
+The two Jianying/CapCut source MP3 files are kept in:
+
+- `assets/voice-sources/magic-deer-greeting-1.mp3`
+- `assets/voice-sources/magic-deer-greeting-2.mp3`
+
+The installed runtime uses converted WAV files:
+
+- `codex-greeting-cute-1.wav`
+- `codex-greeting-cute-2.wav`
 
 ### Pet Click And Vibration
 

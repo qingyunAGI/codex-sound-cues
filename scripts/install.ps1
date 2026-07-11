@@ -4,12 +4,13 @@ $skillRoot = Split-Path -Parent (Split-Path -Parent $PSCommandPath)
 $codexRoot = Join-Path $HOME ".codex"
 $scriptDir = Join-Path $codexRoot "scripts"
 $soundDir = Join-Path $codexRoot "sounds"
+$stateDir = Join-Path $codexRoot "state\codex-sound-cues"
 $petRoot = Join-Path $codexRoot "pets"
 $petSource = Join-Path $skillRoot "assets\pets\magic-deer"
 $petDestination = Join-Path $petRoot "magic-deer"
 $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
 
-New-Item -ItemType Directory -Force -Path $scriptDir, $soundDir, $petRoot | Out-Null
+New-Item -ItemType Directory -Force -Path $scriptDir, $soundDir, $stateDir, $petRoot | Out-Null
 
 $configPath = Join-Path $codexRoot "config.toml"
 $agentsPath = Join-Path $codexRoot "AGENTS.md"
@@ -21,8 +22,14 @@ if (Test-Path -LiteralPath $agentsPath) {
   Copy-Item -LiteralPath $agentsPath -Destination "$agentsPath.bak-codex-sound-cues-$stamp" -Force
 }
 
-Copy-Item -LiteralPath (Join-Path $skillRoot "scripts\*.ps1") -Destination $scriptDir -Force
-Copy-Item -LiteralPath (Join-Path $skillRoot "assets\*.wav") -Destination $soundDir -Force
+Copy-Item -Path (Join-Path $skillRoot "scripts\*.ps1") -Destination $scriptDir -Force
+Copy-Item -Path (Join-Path $skillRoot "assets\*.wav") -Destination $soundDir -Force
+
+$openGreetingMarker = Join-Path $stateDir "greeting-open-played.txt"
+if (Test-Path -LiteralPath $openGreetingMarker) {
+  Remove-Item -LiteralPath $openGreetingMarker -Force
+}
+Set-Content -LiteralPath (Join-Path $stateDir "installed-at.txt") -Value (Get-Date -Format "yyyy-MM-dd HH:mm:ss") -Encoding ASCII
 
 if (Test-Path -LiteralPath $petSource) {
   if (Test-Path -LiteralPath $petDestination) {
@@ -80,7 +87,7 @@ if (Test-Path -LiteralPath $configPath) {
   Set-Content -LiteralPath $configPath -Value ($newNotify + [Environment]::NewLine) -Encoding UTF8
 }
 
-$guidance = @"
+$guidance = @'
 
 ## Codex Sound Cues
 
@@ -88,13 +95,19 @@ $guidance = @"
 - Before asking the user to make a decision, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 decision`.
 - For pet click integrations, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 pet`.
 - The Magic Deer animated pet is installed in `$HOME\.codex\pets\magic-deer`; select it from Codex custom pets after restarting Codex.
+- After installation, the installer plays `greeting-install`, randomly selecting one of the two Magic Deer greeting voices.
+- At the beginning of the first Codex work session after installation, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\codex-sound.ps1 greeting-open`; it plays the second Magic Deer greeting once and records a local marker.
 - For optional long-sitting reminders, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File $HOME\.codex\scripts\start-sedentary-reminder.ps1 -Minutes 50`.
 - Completion sound is handled by the configured Codex `notify` hook.
-"@
+'@
 
 if (Test-Path -LiteralPath $agentsPath) {
   $agentsText = Get-Content -LiteralPath $agentsPath -Raw -Encoding UTF8
-  if ($agentsText -notmatch '## Codex Sound Cues') {
+  $sectionPattern = '(?ms)^## Codex Sound Cues\r?\n.*?(?=^## |\z)'
+  if ($agentsText -match $sectionPattern) {
+    $agentsText = [regex]::Replace($agentsText, $sectionPattern, $guidance.Trim(), 1)
+    Set-Content -LiteralPath $agentsPath -Value $agentsText -Encoding UTF8
+  } else {
     Add-Content -LiteralPath $agentsPath -Value $guidance -Encoding UTF8
   }
 } else {
@@ -104,6 +117,11 @@ if (Test-Path -LiteralPath $agentsPath) {
 Write-Output "Installed Codex Sound Cues."
 if (Test-Path -LiteralPath $petSource) {
   Write-Output "Installed Magic Deer animated pet to $petDestination"
+}
+$installedSoundScript = Join-Path $scriptDir "codex-sound.ps1"
+if (Test-Path -LiteralPath $installedSoundScript) {
+  Write-Output "Playing Magic Deer install greeting..."
+  & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $installedSoundScript greeting-install
 }
 Write-Output "Backup stamp: $stamp"
 Write-Output "Test with: powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$scriptDir\codex-sound.ps1`" test"

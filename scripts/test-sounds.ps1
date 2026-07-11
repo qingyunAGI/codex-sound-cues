@@ -9,6 +9,6 @@ if (Test-Path -LiteralPath $installedScript) {
 } else {
   $tempSoundDir = Join-Path $HOME ".codex\sounds"
   New-Item -ItemType Directory -Force -Path $tempSoundDir | Out-Null
-  Copy-Item -LiteralPath (Join-Path $skillRoot "assets\*.wav") -Destination $tempSoundDir -Force
+  Copy-Item -Path (Join-Path $skillRoot "assets\*.wav") -Destination $tempSoundDir -Force
   & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $localScript test
 }
