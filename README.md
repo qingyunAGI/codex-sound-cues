@@ -1,4 +1,4 @@
-# Codex Sound Cues / Codex 状态提示音
+# Codex Sound Cues / Codex魔法小鹿桌宠互动陪伴小助理
 
 [中文说明](#中文说明) | [English](#english)
 
